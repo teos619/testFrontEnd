@@ -15,13 +15,13 @@
             </div>
 
             <div class="mb-3">
-                {{ form_label(registrationForm.password.first, 'Password', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(registrationForm.password.first, {'attr': {'class': 'form-control'}}) }}
+                {{ form_label(registrationForm.plainPassword.first, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
             </div>
 
             <div class="mb-3">
-                {{ form_label(registrationForm.password.second, 'Repeat Password', {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(registrationForm.password.second, {'attr': {'class': 'form-control'}}) }}
+                {{ form_label(registrationForm.plainPassword.second, 'Repeat Password', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Register</button>
