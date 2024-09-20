@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block body %}
+    <div class="text-center my-5">
+        <h1>Welcome to My Project</h1>
+        <p class="lead">Choose where you want to go:</p>
+
+        <div class="d-flex justify-content-center">
+            <a href="{{ path('login') }}" class="btn btn-primary mx-2">Login</a>
+            <a href="{{ path('charts_index') }}" class="btn btn-secondary mx-2">Charts</a>
+        </div>
+    </div>
+{% endblock %}

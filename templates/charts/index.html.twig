@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Charts!{% endblock %}
+
+{% block body %}
+
+<br>
+  <div>
+            <a href="{{ path('logout') }}" class="btn btn-danger mx-2">Logout</a>
+           
+   </div>
+   <hr>
+   <h1 class="text-center">Buscar</h1>
+<div class="d-flex justify-content-center">
+    <form action="{{ path('charts_index') }}" method="POST" class="form-inline">
+    <div class="input-group mb-3">
+   
+        <input type="date" name="date" id="date" class="form-control mr-2" required>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+</div>
+    </form>
+</div>
+
+
+
+{% if metrics is not empty %}
+    <div class="row mt-5">
+        <!-- Columna para las tablas -->
+        <div class="col-md-6">
+            <h2>Métricas</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Métrica</th>
+                        <th>Valor</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for metric in metrics %}
+                        <tr>
+                            <td>{{ metric.id }}</td>
+                            <td>{{ metric.metric }}</td>
+                            <td>{{ metric.value }}</td>
+                            <td>{{ metric.date|date('Y-m-d') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Géneros</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Género</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gender in genders %}
+                        {% for g in gender %}
+                            <tr>
+                                <td>{{ g.id }}</td>
+                                <td>{{ g.gender }}</td>
+                                <td>{{ g.value }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Países</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>País</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for country in countries %}
+                        {% for c in country %}
+                            <tr>
+                                <td>{{ c.id }}</td>
+                                <td>{{ c.country }}</td>
+                                <td>{{ c.value }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Columna para los gráficos -->
+        <div class="col-md-6">
+            <h2>Gráficos</h2>
+            <canvas id="genderChart" class="mb-5"></canvas>
+            <canvas id="countryChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Generar gráfico de pastel para Género
+        var genderCtx = document.getElementById('genderChart').getContext('2d');
+        var genderChart = new Chart(genderCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    {% for gender in genders %}
+                        {% for g in gender %}
+                            "{{ g.gender }}",
+                        {% endfor %}
+                    {% endfor %}
+                ],
+                datasets: [{
+                    data: [
+                        {% for gender in genders %}
+                            {% for g in gender %}
+                                {{ g.value }},
+                            {% endfor %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: ['red', 'blue', 'green', 'yellow', 'purple'],
+                }]
+            }
+        });
+
+        // Generar gráfico de pastel para País
+        var countryCtx = document.getElementById('countryChart').getContext('2d');
+        var countryChart = new Chart(countryCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    {% for country in countries %}
+                        {% for c in country %}
+                            "{{ c.country }}",
+                        {% endfor %}
+                    {% endfor %}
+                ],
+                datasets: [{
+                    data: [
+                        {% for country in countries %}
+                            {% for c in country %}
+                                {{ c.value }},
+                            {% endfor %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: ['red', 'blue', 'green', 'yellow', 'purple'],
+                }]
+            }
+        });
+    </script>
+{% endif %}
+{% endblock %}
